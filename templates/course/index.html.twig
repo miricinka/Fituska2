@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Courses{% endblock %}
+
+{% block body %}
+<div class="container">
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice alert alert-success alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <h2>List of all courses</h2>
+    {% if app.user %}
+        <a type="button" class="btn btn-primary" href="{{ path('course.createCourse') }}">Create new Course</a>
+    {% endif %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td><h4>ID</h4></td>
+                <td><h4>Title</h4></td>
+                {% if app.user %}
+                    <td><h4>Delete</h4></td>
+                    <td><h4>Subscribe</h4></td>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+                <tr>
+                    <td>{{ course.id }}</td>
+                    <td>
+                        <h5 style="margin: 5px;"><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}"> {{ course.title }}</a></h5>
+                    </td>
+                    {% if app.user %}
+                        <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
+                        {% if app.user == course.author %}
+                            <td><span class="text-muted text-decoration-none">You are the teacher!</span></td>
+                        {% elseif app.user in course.students%}
+                            <td><span class="text-muted text-decoration-none">Subscribed!</span></td>
+                        {% else %}
+                            <td><a class="text-success text-decoration-none" href="{{ path('course.subscribe',{id: course.id} )}}">Subscribe</a></td>
+                        {% endif %}
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

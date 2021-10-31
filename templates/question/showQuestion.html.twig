@@ -1,0 +1,74 @@
+{% extends('base.html.twig') %}
+{% block title %}Question{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice alert alert-success alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
+            <div class="list-group">
+                <div class="list-group-item list-group-item-action flex-column align-items-start active">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ question.title }}</h5>
+                        <small class="text-muted">{{ question.date|date('d/m/Y H:i:s') }}</small>
+                    </div>
+                    <span class="badge bg-success" style="margin-bottom: 10px">{{ question.category }}</span>
+
+                    <p class="mb-1">{{ question.description }}</p>
+                    <a class="text-decoration-none" href="{{ path('users.show',{id: question.author.id} )}}">
+                        <small class="text-muted">{{ question.author }}</small>
+                    </a>
+                </div>
+            </div>
+    <div style="padding: 1%">
+        {% if app.user %}
+            {% if question.author != app.user %}
+                {% if  answersByUserCount != 0 %}
+                    <small class="text-muted">You have already answered!</small>
+                {% else %}
+                    {{ form(formAnswer) }}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div style="padding-left: 2%; padding-right: 2%; padding-bottom: 3%">
+        <h4>Answers</h4>
+        {% for answer in answers %}
+            <div class="list-group" style="margin-top: 10px">
+                <div class="list-group-item flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <a class="text-decoration-none" href="{{ path('users.show',{id: answer.author.id} )}}"><strong>{{ answer.author }}</strong></a>
+                        <small class="text-muted">{{ answer.date|date('d/m/Y H:i:s') }}</small>
+                    </div>
+                    <hr style="margin: 5px">
+                    <div class="d-flex w-100 justify-content-between">
+                        <p class="mb-1">{{ answer.text }}</p>
+                    </div>
+                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                </div>
+            </div>
+
+            <div style="padding-left: 4%">
+                {% for reaction in reactions %}
+                    {% if reaction.reactionToAnswer.id == answer.id  %}
+                        <div class="list-group" style="margin-top: 10px; margin-left: 10px">
+                            <div class="list-group-item flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <a class="text-decoration-none" href="{{ path('users.show',{id: reaction.author.id} )}}"><strong>{{ reaction.author }}</strong></a>
+                                    <small class="text-muted">{{ reaction.date|date('d/m/Y H:i:s') }}</small>
+                                </div>
+                                <hr style="margin: 5px">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <p class="mb-1">{{ reaction.text }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock %}

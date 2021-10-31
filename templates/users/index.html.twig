@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Users{% endblock %}
+
+{% block body %}
+    <h2>Users</h2>
+
+    <table class="table table-striped" style="width: 70%">
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>
+                        <h5 style="margin: 5px;"><a class="text-decoration-none" href="{{ path('users.show',{id: user.id} )}}"> {{ user.username }}</a></h5>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.score }}</td>
+{#                    {% if app.user %}#}
+{#                        <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>#}
+{#                    {% endif %}#}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

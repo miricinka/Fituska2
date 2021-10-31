@@ -1,0 +1,26 @@
+{% extends('base.html.twig') %}
+
+{% block title %}{{ course.id }}{% endblock %}
+
+{% block body %}
+    <h1>
+        <small class="text-muted">{{ course.id }}</small>
+        {{ course.title }}
+    </h1>
+    <small class="text-muted">{{ course.author }}</small>
+    <p>{{ course.description }}</p>
+    {% if app.user %}
+        <a type="button" class="btn btn-success" href="{{ path('addQuestion', {id: course.id}) }}" >Ask a question!</a>
+    {% endif %}
+        {% for question in questions %}
+            <div class="list-group" style="margin-top: 10px">
+                <a href="{{ path('showQuestion',{id: question.id} )}}" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5 class="mb-1">{{ question.title }}</h5>
+                        <span class="badge bg-success" style="margin-bottom: 10px">{{ question.category }}</span>
+                    </div>
+                    <div class="text-decoration-none" href="{{ path('users.show',{id: question.author.id} )}}"><small class="text-muted" href="{{ path('users.show',{id: question.author.id} )}}">{{ question.author }}</div></small>
+                </a>
+            </div>
+        {% endfor %}
+{% endblock %}

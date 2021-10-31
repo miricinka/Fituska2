@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1 class="text-secondary">{{ user.username }}</h1>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>Sex</td>
+                <td>{{ user.sex }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Subscribed courses</h4>
+    <table class="table">
+        <tbody>
+        {% for course in user.classes %}
+            <tr><td><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}">{{ course.id }}</a></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <h4>Teaches courses</h4>
+    <table class="table">
+        <tbody>
+        {% for course in user.courses %}
+            <tr><td><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}">{{ course.id }}</a></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    <h1>Welcome to Fituska2.0</h1>
+
+    {% if app.user %}
+        <div class="mb-3">
+            <p>You are logged in as {{ app.user.username }}</p>
+            <p>Now you can browse in courses!</p>
+        </div>
+    {% endif %}
+
+    {% if not app.user %}
+        <div class="mb-3">
+            <p>Login or register now!</p>
+            <p>You can browse in courses.</p>
+        </div>
+    {% endif %}
+
+{% endblock %}
