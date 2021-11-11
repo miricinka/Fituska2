@@ -8,26 +8,6 @@ doctrine:
             type: pool
             pool: doctrine.result_cache_pool
 
-    dbal:
-        default_connection: default
-        connections:
-            default:
-                url: '%env(resolve:DATABASE_URL)%'
-                unix_socket: /var/run/mysql/mysql.sock
-                server_version: '5.7'
-                driver: pdo_mysql
-                logging: true
-                profiling: true
-                profiling_collect_backtrace: false
-                profiling_collect_schema_errors: true
-                options: { }
-                mapping_types: { }
-                default_table_options: { }
-                slaves: { }
-                replicas: { }
-                shards: { }
-        types: { }
-
 framework:
     cache:
         pools:
