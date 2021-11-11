@@ -9,16 +9,24 @@ doctrine:
             pool: doctrine.result_cache_pool
 
     dbal:
-        driver: pdo_mysql
-        url: '%env(resolve:DATABASE_URL)%'
-        host: '%database_host%'
-        port: '%database_port%'
-        dbname: '%database_name%'
-        user: '%database_user%'
-        password: '%database_password%'
-        unix_socket: /var/lib/mysql/mysql.sock
-        server_version: '5.7'
-        charset: UTF8
+        default_connection: default
+        connections:
+            default:
+                url: '%env(resolve:DATABASE_URL)%'
+                unix_socket: /var/run/mysql/mysql.sock
+                server_version: '5.7'
+                driver: pdo_mysql
+                logging: true
+                profiling: true
+                profiling_collect_backtrace: false
+                profiling_collect_schema_errors: true
+                options: { }
+                mapping_types: { }
+                default_table_options: { }
+                slaves: { }
+                replicas: { }
+                shards: { }
+        types: { }
 
 framework:
     cache:
