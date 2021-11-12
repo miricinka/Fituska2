@@ -20,7 +20,9 @@
                 <td><h4>ID</h4></td>
                 <td><h4>Title</h4></td>
                 {% if app.user %}
-                    <td><h4>Delete</h4></td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <td><h4>Delete</h4></td>
+                    {% endif %}
                     <td><h4>Subscribe</h4></td>
                 {% endif %}
             </tr>
@@ -33,7 +35,9 @@
                         <h5 style="margin: 5px;"><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}"> {{ course.title }}</a></h5>
                     </td>
                     {% if app.user %}
-                        <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
+                        {% endif %}
                         {% if app.user == course.author %}
                             <td><span class="text-muted text-decoration-none">You are the teacher!</span></td>
                         {% elseif app.user in course.students%}
