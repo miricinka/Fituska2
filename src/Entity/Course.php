@@ -43,6 +43,11 @@ class Course
      */
     private $students;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    private $published = false;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -147,6 +152,18 @@ class Course
     public function removeStudent(User $student): self
     {
         $this->students->removeElement($student);
+
+        return $this;
+    }
+
+    public function getPublished(): ?bool
+    {
+        return $this->published;
+    }
+
+    public function setPublished(bool $published): self
+    {
+        $this->published = $published;
 
         return $this;
     }

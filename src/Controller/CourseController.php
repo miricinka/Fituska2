@@ -61,6 +61,17 @@ class CourseController extends AbstractController
     public function show($id, CourseRepository $courseRepository, QuestionRepository $questionRepository){
         $course = $courseRepository->find($id);
         $questions = $questionRepository->findBy(['course'=> $course]);
+        if(!$course->getPublished()) {
+            if ($this->getUser()) {
+                if ($course->getAuthor() !== $this->getUser()) {
+                    if ($this->getUser()->getUsername() != "admin" && $this->getUser()->getUsername() != "moderator") {
+                        throw $this->createAccessDeniedException();
+                    }
+                }
+            }else {
+                throw $this->createAccessDeniedException();
+            }
+        }
         return $this->render('course/show.html.twig', [
             'course' => $course,
             'questions' => $questions
@@ -75,6 +86,18 @@ class CourseController extends AbstractController
         $em->remove($course);
         $em->flush();
         $this->addFlash('success', 'Course was deleted');
+        return $this->redirect($this->generateUrl('course.courses'));
+    }
+    /**
+     * @Route("/publish/{id}", name="publish")
+     */
+    public function publish($id, CourseRepository $courseRepository){
+        $course = $courseRepository->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $course->setPublished(true);
+        $em->persist($course);
+        $em->flush();
+        $this->addFlash('success', 'Course was published');
         return $this->redirect($this->generateUrl('course.courses'));
     }
 

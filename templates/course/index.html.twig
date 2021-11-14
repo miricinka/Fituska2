@@ -23,27 +23,43 @@
                     {% if is_granted('ROLE_ADMIN') %}
                         <td><h4>Delete</h4></td>
                     {% endif %}
+                    {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
+                        <td><h4>Publish</h4></td>
+                    {% endif %}
                     <td><h4>Subscribe</h4></td>
                 {% endif %}
             </tr>
         </thead>
         <tbody>
             {% for course in courses %}
-                <tr>
-                    <td>{{ course.id }}</td>
+                {% if course.published or is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') or course.author == app.user %}
+                    <tr>
                     <td>
-                        <h5 style="margin: 5px;"><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}"> {{ course.title }}</a></h5>
-                    </td>
-                    {% if app.user %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
-                        {% endif %}
-                        {% if app.user == course.author %}
-                            <td><span class="text-muted text-decoration-none">You are the teacher!</span></td>
-                        {% elseif app.user in course.students%}
-                            <td><span class="text-muted text-decoration-none">Subscribed!</span></td>
-                        {% else %}
-                            <td><a class="text-success text-decoration-none" href="{{ path('course.subscribe',{id: course.id} )}}">Subscribe</a></td>
+                        <span>{{ course.id }}</span>
+                        <td>
+                            <h5 style="margin: 5px;"><a class="text-decoration-none" href="{{ path('course.show',{id: course.id} )}}"> {{ course.title }}</a></h5>
+                            {% if not course.published %}
+                                <span class="badge rounded-pill bg-warning">Waiting for approval</span>
+                            {% endif %}</td>
+                        </td>
+                        {% if app.user %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <td><a type="button" class="btn btn-outline-danger" style="padding:0.40rem 0.8rem;" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
+                            {% endif %}
+                            {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN')%}
+                                {% if not course.published %}
+                                    <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;"href="{{ path('course.publish',{id: course.id} )}}">Publish</a></td>
+                                {% else %}
+                                    <td><span class="text-muted text-decoration-none">Published</span></td>
+                                {% endif %}
+                            {% endif %}
+                            {% if app.user == course.author %}
+                                <td><span class="text-muted text-decoration-none">You are the teacher!</span></td>
+                            {% elseif app.user in course.students%}
+                                <td><span class="text-muted text-decoration-none">Subscribed!</span></td>
+                            {% else %}
+                                <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;" href="{{ path('course.subscribe',{id: course.id} )}}">Subscribe</a></td>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </tr>
