@@ -51,7 +51,7 @@ class Question
     private $course;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="author", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question", orphanRemoval=true)
      */
     private $answers;
 

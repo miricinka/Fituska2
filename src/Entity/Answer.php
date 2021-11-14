@@ -35,7 +35,7 @@ class Answer
     private $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Question", inversedBy="answers", cascade={"remove"})
      */
     private $question;
 
@@ -45,7 +45,7 @@ class Answer
     private $date;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reaction", mappedBy="author", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Reaction", mappedBy="reactionToAnswer", orphanRemoval=true)
      */
     private $reactions;
 

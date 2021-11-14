@@ -34,7 +34,7 @@ class Course
     private $questions;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="courses", cascade={"remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="courses")
      */
     private $author;
 
