@@ -3,15 +3,18 @@
 namespace App\Controller;
 use App\Entity\Answer;
 use App\Entity\Course;
+use App\Entity\FinalAnswer;
 use App\Entity\Reaction;
 use App\Entity\User;
 use App\Entity\Question;
 use App\Form\AnswerType;
 use App\Form\CourseType;
+use App\Form\FinalAnswerType;
 use App\Form\QuestionType;
 use App\Form\ReactionType;
 use App\Repository\AnswerRepository;
 use App\Repository\CourseRepository;
+use App\Repository\FinalAnswerRepository;
 use App\Repository\QuestionRepository;
 use App\Repository\ReactionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,10 +57,11 @@ class QuestionController extends AbstractController
     /**
      * @Route("question/show/{id}", name="showQuestion")
      */
-    public function show($id, QuestionRepository $questionRepository, Request $request, AnswerRepository $answerRepository, ReactionRepository $reactionRepository){
+    public function show($id, QuestionRepository $questionRepository, Request $request, AnswerRepository $answerRepository, ReactionRepository $reactionRepository, FinalAnswerRepository $finalAnswerRepository){
         $question = $questionRepository->find($id);
         $answers = $answerRepository->findBy(['question'=> $question]);
         $answersByUser = $answerRepository->findBy(['question'=> $question, 'author'=>$this->getUser()]);
+        $finalAnswer = $finalAnswerRepository->findOneBy(['question'=> $question]);
 
         $answer = new Answer();
         $answer->setAuthor($this->getUser());
@@ -65,6 +69,12 @@ class QuestionController extends AbstractController
         $answer->setDate(new \DateTime('now'));
         $formAnswer = $this->createForm(AnswerType::class, $answer, ['attr' => ['id' => 'formAnswer']]);
         $formAnswer->handleRequest($request);
+
+        $newFinalAnswer = new FinalAnswer();
+        $newFinalAnswer->setQuestion($question);
+        $newFinalAnswer->setDate(new \DateTime('now'));
+        $formFinalAnswer = $this->createForm(FinalAnswerType::class, $newFinalAnswer, ['attr' => ['id' => 'formFinalAnswer']]);
+        $formFinalAnswer->handleRequest($request);
 
         $reactions = $reactionRepository->findAll();
 
@@ -81,14 +91,28 @@ class QuestionController extends AbstractController
             ]));
         }
 
+        if($formFinalAnswer->isSubmitted() && $formFinalAnswer->isValid()){
+            $em = $this->getDoctrine()->getManager();
+            $question->setClosed(true);
+            $em->persist($question);
+            $em->persist($newFinalAnswer);
+            $em->flush();
+
+            $this->addFlash('success', 'Final answer added!');
+            return $this->redirect($this->generateUrl('showQuestion', [
+                'id' => $question->getId()
+            ]));
+        }
 
 
         return $this->render('question/showQuestion.html.twig',[
             'question' => $question,
             'formAnswer' => $formAnswer->createView(),
+            'formFinalAnswer' => $formFinalAnswer->createView(),
             'answers' => $answers,
             'answersByUserCount' => count($answersByUser),
-            'reactions' => $reactions
+            'reactions' => $reactions,
+            'finalAnswer' => $finalAnswer
         ]);
     }
 }

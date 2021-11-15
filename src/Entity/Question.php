@@ -51,6 +51,11 @@ class Question
     private $course;
 
     /**
+     * @ORM\OneToOne(targetEntity="App\Entity\FinalAnswer", mappedBy="question")
+     */
+    private $finalAnswer;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Answer", mappedBy="question", orphanRemoval=true)
      */
     private $answers;
@@ -197,6 +202,28 @@ class Question
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getFinalAnswer(): ?FinalAnswer
+    {
+        return $this->finalAnswer;
+    }
+
+    public function setFinalAnswer(?FinalAnswer $finalAnswer): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($finalAnswer === null && $this->finalAnswer !== null) {
+            $this->finalAnswer->setQuestion(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($finalAnswer !== null && $finalAnswer->getQuestion() !== $this) {
+            $finalAnswer->setQuestion($this);
+        }
+
+        $this->finalAnswer = $finalAnswer;
 
         return $this;
     }

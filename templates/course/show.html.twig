@@ -16,7 +16,14 @@
             <div class="list-group" style="margin-top: 10px">
                 <a href="{{ path('showQuestion',{id: question.id} )}}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ question.title }}</h5>
+                        <h5 class="mb-1">
+                            {% if question.closed %}
+                                <i class="bi bi-lock-fill"></i>
+                            {% else %}
+                                <i class="bi bi-unlock-fill"></i>
+                            {% endif %}
+                            {{ question.title }}
+                        </h5>
                         <span class="badge bg-success" style="margin-bottom: 10px">{{ question.category }}</span>
                     </div>
                     <div class="text-decoration-none" href="{{ path('users.show',{id: question.author.id} )}}"><small class="text-muted" href="{{ path('users.show',{id: question.author.id} )}}">{{ question.author }}</div></small>

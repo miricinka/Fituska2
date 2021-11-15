@@ -21,10 +21,33 @@
                     </a>
                 </div>
             </div>
+
+    <div style="padding: 1%">
+        {% if not question.closed %}
+            {% if app.user %}
+                {% if question.course.author == app.user %}
+                    {{ form(formFinalAnswer) }}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            <div class="card border-info mb-3" >
+                <div class="card-header d-flex w-100 justify-content-between">
+                    <a class="text-decoration-none" href="{{ path('users.show',{id: question.course.author.id} )}}"><strong>{{ question.course.author }}</strong></a>
+                    <h6>FINAL ANSWER</h6>
+                    <small class="text-muted">{{ finalAnswer.date|date('d/m/Y H:i:s') }}</small>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{ finalAnswer.text }}</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
     <div style="padding: 1%">
         {% if app.user %}
-            {% if question.author != app.user %}
-                {% if  answersByUserCount != 0 %}
+            {% if question.author != app.user and question.course.author != app.user %}
+                {% if question.closed %}
+                    <small class="text-muted">Question is closed</small>
+                {% elseif  answersByUserCount != 0 %}
                     <small class="text-muted">You have already answered!</small>
                 {% else %}
                     {{ form(formAnswer) }}
@@ -34,7 +57,9 @@
     </div>
 
     <div style="padding-left: 2%; padding-right: 2%; padding-bottom: 3%">
-        <h4>Answers</h4>
+        {% if answers %}
+            <h4>Answers</h4>
+        {% endif %}
         {% for answer in answers %}
             <div class="list-group" style="margin-top: 10px">
                 <div class="list-group-item flex-column align-items-start">
@@ -47,7 +72,9 @@
                         <p class="mb-1">{{ answer.text }}</p>
                     </div>
                     {% if app.user %}
-                        <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                        {% if question.course.author != app.user %}
+                            <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
