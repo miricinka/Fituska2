@@ -10,7 +10,9 @@
     <small class="text-muted">{{ course.author }}</small>
     <p>{{ course.description }}</p>
     {% if app.user %}
-        <a type="button" class="btn btn-success" href="{{ path('addQuestion', {id: course.id}) }}" >Ask a question!</a>
+        {% if app.user in course.students %}
+            <a type="button" class="btn btn-success" href="{{ path('addQuestion', {id: course.id}) }}" >Ask a question!</a>
+        {% endif %}
     {% endif %}
         {% for question in questions %}
             <div class="list-group" style="margin-top: 10px">

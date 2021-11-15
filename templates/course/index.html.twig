@@ -26,7 +26,7 @@
                     {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
                         <td><h4>Publish</h4></td>
                     {% endif %}
-                    <td><h4>Subscribe</h4></td>
+                    <td><h4>Enroll</h4></td>
                 {% endif %}
             </tr>
         </thead>
@@ -56,9 +56,9 @@
                             {% if app.user == course.author %}
                                 <td><span class="text-muted text-decoration-none">You are the teacher!</span></td>
                             {% elseif app.user in course.students%}
-                                <td><span class="text-muted text-decoration-none">Subscribed!</span></td>
+                                <td><span class="text-muted text-decoration-none">Enrolled!</span></td>
                             {% else %}
-                                <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;" href="{{ path('course.subscribe',{id: course.id} )}}">Subscribe</a></td>
+                                <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;" href="{{ path('course.subscribe',{id: course.id} )}}"><i class="bi bi-person-plus-fill"></i></a></td>
                             {% endif %}
                         {% endif %}
                     {% endif %}
