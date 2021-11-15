@@ -49,9 +49,15 @@ class Answer
      */
     private $reactions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="likedAnswers")
+     */
+    private $likedByUsers;
+
     public function __construct()
     {
         $this->reactions = new ArrayCollection();
+        $this->likedByUsers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -147,5 +153,42 @@ class Answer
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getLikedByUsers(): Collection
+    {
+        return $this->likedByUsers;
+    }
+
+    public function addLikedByUser(User $likedByUser): self
+    {
+        if (!$this->likedByUsers->contains($likedByUser)) {
+            $this->likedByUsers[] = $likedByUser;
+            $likedByUser->addLikedAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedByUser(User $likedByUser): self
+    {
+        if ($this->likedByUsers->removeElement($likedByUser)) {
+            $likedByUser->removeLikedAnswer($this);
+        }
+
+        return $this;
+    }
+
+    public function likedByUserCount(User $user) :int {
+        $count = 0;
+        foreach ($this->likedByUsers as $liked){
+            if($liked == $user){
+                $count++;
+            }
+        }
+        return $count;
     }
 }

@@ -82,6 +82,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $reactions;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Answer", inversedBy="likedByUsers")
+     */
+    private $likedAnswers;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -89,6 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->classes = new ArrayCollection();
         $this->answers = new ArrayCollection();
         $this->reactions = new ArrayCollection();
+        $this->likedAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -358,6 +364,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reaction->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Answer[]
+     */
+    public function getLikedAnswers(): Collection
+    {
+        return $this->likedAnswers;
+    }
+
+    public function addLikedAnswer(Answer $likedAnswer): self
+    {
+        if (!$this->likedAnswers->contains($likedAnswer)) {
+            $this->likedAnswers[] = $likedAnswer;
+        }
+
+        return $this;
+    }
+
+    public function removeLikedAnswer(Answer $likedAnswer): self
+    {
+        $this->likedAnswers->removeElement($likedAnswer);
 
         return $this;
     }

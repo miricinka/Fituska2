@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AnswerController extends AbstractController
 {
+
     /**
      * @Route("/addreaction{id}", name="addReaction")
      */
@@ -47,4 +48,33 @@ class AnswerController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/question/answer/{id}/like", name="liked")
+     */
+    public function like($id, AnswerRepository $answerRepository){
+        $answer = $answerRepository->find($id);
+        $question = $answer->getQuestion();
+
+        $em = $this->getDoctrine()->getManager();
+
+        if(in_array($this->getUser(), $answer->getLikedByUsers()->toArray())){
+            $answer->removeLikedByUser($this->getUser());
+            $em->persist($answer);
+            $em->flush();
+        }else{
+            if($answer->likedByUserCount($this->getUser()) == 3) {
+                $this->addFlash('danger', 'You have already liked 3 answers');
+            }else{
+                $answer->addLikedByUser($this->getUser());
+                $em->persist($answer);
+                $em->flush();
+            }
+        }
+
+        return $this->redirect($this->generateUrl('showQuestion', [
+            'id' => $question->getId()
+        ]));
+    }
+
 }

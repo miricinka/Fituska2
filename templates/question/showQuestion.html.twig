@@ -77,6 +77,11 @@
                         {% if not question.closed %}
                             {% if question.course.author != app.user %}
                                 {% if app.user in question.course.students %}
+                                    {% if answer in app.user.likedAnswers %}
+                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart-fill"></i></a>
+                                    {% else %}
+                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart"></i></a>
+                                    {% endif %}
                                     <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
                                 {% endif %}
                             {% endif %}
