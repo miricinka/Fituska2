@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-    <div style="padding: 1%">
+    <div style="padding-top: 1%;padding-bottom: 1%;">
         {% if not question.closed %}
             {% if app.user %}
                 {% if question.course.author == app.user %}
@@ -72,8 +72,10 @@
                         <p class="mb-1">{{ answer.text }}</p>
                     </div>
                     {% if app.user %}
-                        {% if question.course.author != app.user %}
-                            <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                        {% if not question.closed %}
+                            {% if question.course.author != app.user %}
+                                <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                            {% endif %}
                         {% endif %}
                     {% endif %}
                 </div>
