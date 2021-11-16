@@ -82,6 +82,9 @@
                 <div class="list-group-item flex-column align-items-start">
                     <div class="d-flex w-100 justify-content-between">
                         <a class="text-decoration-none" href="{{ path('users.show',{id: answer.author.id} )}}"><strong>{{ answer.author }}</strong></a>
+                        {% if answer.isCorrect %}
+                            <h4 class="text-success">Correct answer</h4>
+                        {% endif %}
                         <small class="text-muted">{{ answer.date|date('d/m/Y H:i:s') }}</small>
                     </div>
                     <hr style="margin: 5px">
@@ -117,20 +120,11 @@
                             {% endif %}
                         </div>
                     </div>
-{#                    {% if app.user %}#}
-{#                        {% if not question.closed %}#}
-{#                            {% if question.course.author != app.user %}#}
-{#                                {% if app.user in question.course.students %}#}
-{#                                    {% if answer in app.user.likedAnswers %}#}
-{#                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart-fill"></i></a>#}
-{#                                    {% else %}#}
-{#                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart"></i></a>#}
-{#                                    {% endif %}#}
-{#                                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>#}
-{#                                {% endif %}#}
-{#                            {% endif %}#}
-{#                        {% endif %}#}
-{#                    {% endif %}#}
+                    {% if app.user and question.closed %}
+                        {% if app.user == question.course.author and not answer.isCorrect %}
+                            <a type="button" class="btn btn-success btn-sm" href="{{ path('markAsCorrect', {id: answer.id}) }}">MARK AS CORRECT</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </div>
 

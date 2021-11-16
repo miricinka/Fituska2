@@ -88,4 +88,25 @@ class AnswerController extends AbstractController
         ]));
     }
 
+    /**
+     * @Route("/question/answer/correct/{id}", name="markAsCorrect")
+     */
+    public function markAsCorrect($id, AnswerRepository $answerRepository){
+        $answer = $answerRepository->find($id);
+        $question = $answer->getQuestion();
+        $em = $this->getDoctrine()->getManager();
+
+        $answer->setIsCorrect(true);
+
+        $author = $answer->getAuthor();
+        $author->setScore($author->getScore() + $answer->getLikes());
+        $em->persist($answer);
+        $em->persist($author);
+        $em->flush();
+
+        return $this->redirect($this->generateUrl('showQuestion', [
+            'id' => $question->getId()
+        ]));
+    }
+
 }

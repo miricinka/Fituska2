@@ -37,7 +37,6 @@ class UsersController extends AbstractController
      */
     public function delete($id, UserRepository $userRepository){
         $user = $userRepository->find($id);
-        //delete TODO
         $em = $this->getDoctrine()->getManager();
         $em->remove($user);
         $em->flush();

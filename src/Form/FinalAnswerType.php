@@ -15,9 +15,9 @@ class FinalAnswerType extends AbstractType
     {
         $builder
             ->add('text', TextareaType::class, [
-                'label' => "Write final answer!",
+                'label' => "Write final answer! *This action will CLOSE this question.",
                 'attr' => array(
-                    'placeholder' => "What is the final answer? This action will CLOSE this answer.",
+                    'placeholder' => "What is the final answer? ",
                 ),
                 'required' => true
             ])

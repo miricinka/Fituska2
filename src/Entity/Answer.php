@@ -54,6 +54,11 @@ class Answer
      */
     private $likedByUsers;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default":"0"})
+     */
+    private $isCorrect = false;
+
     public function __construct()
     {
         $this->reactions = new ArrayCollection();
@@ -190,5 +195,17 @@ class Answer
             }
         }
         return $count;
+    }
+
+    public function getIsCorrect(): ?bool
+    {
+        return $this->isCorrect;
+    }
+
+    public function setIsCorrect(bool $isCorrect): self
+    {
+        $this->isCorrect = $isCorrect;
+
+        return $this;
     }
 }
