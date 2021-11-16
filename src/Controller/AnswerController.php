@@ -63,8 +63,17 @@ class AnswerController extends AbstractController
             $em->persist($answer);
             $em->flush();
         }else{
-            if($answer->likedByUserCount($this->getUser()) == 3) {
-                $this->addFlash('danger', 'You have already liked 3 answers');
+
+            $allAnswers = $answerRepository->findBy(['question'=>$question]);
+            $count = 0;
+            foreach ($allAnswers as $oneAnswer){
+                if(in_array($this->getUser(), $oneAnswer->getLikedByUsers()->toArray())){
+                    $count++;
+                }
+            }
+
+            if($count == 3) {
+                $this->addFlash('warning', 'You have already liked 3 answers');
             }else{
                 $answer->addLikedByUser($this->getUser());
                 $em->persist($answer);

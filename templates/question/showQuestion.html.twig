@@ -7,6 +7,11 @@
             {{ message }}
         </div>
     {% endfor %}
+    {% for message in app.flashes('warning') %}
+        <div class="flash-notice alert alert-warning alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
             <div class="list-group">
                 <div class="list-group-item list-group-item-action flex-column align-items-start active">
                     <div class="d-flex w-100 justify-content-between">
