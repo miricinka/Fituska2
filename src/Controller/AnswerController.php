@@ -60,6 +60,7 @@ class AnswerController extends AbstractController
 
         if(in_array($this->getUser(), $answer->getLikedByUsers()->toArray())){
             $answer->removeLikedByUser($this->getUser());
+            $answer->setLikes($answer->getLikes()-1);
             $em->persist($answer);
             $em->flush();
         }else{
@@ -76,6 +77,7 @@ class AnswerController extends AbstractController
                 $this->addFlash('warning', 'You have already liked 3 answers');
             }else{
                 $answer->addLikedByUser($this->getUser());
+                $answer->setLikes($answer->getLikes()+1);
                 $em->persist($answer);
                 $em->flush();
             }
