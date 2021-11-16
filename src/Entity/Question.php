@@ -51,7 +51,7 @@ class Question
     private $course;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\FinalAnswer", mappedBy="question")
+     * @ORM\OneToOne(targetEntity="App\Entity\FinalAnswer", mappedBy="question", orphanRemoval=true)
      */
     private $finalAnswer;
 
@@ -69,7 +69,6 @@ class Question
     {
         $this->answers = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {

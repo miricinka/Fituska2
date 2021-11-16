@@ -50,7 +50,7 @@ class AnswerController extends AbstractController
     }
 
     /**
-     * @Route("/question/answer/{id}/like", name="liked")
+     * @Route("/question/answer/like/{id}", name="liked")
      */
     public function like($id, AnswerRepository $answerRepository){
         $answer = $answerRepository->find($id);

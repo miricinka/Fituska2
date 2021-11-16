@@ -12,6 +12,16 @@
             {{ message }}
         </div>
     {% endfor %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('course.courses') }}">Courses</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('course.show',{id: question.course.id} )}}">{{ question.course.id }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ question.title }}</li>
+        </ol>
+    </nav>
+
             <div class="list-group">
                 <div class="list-group-item list-group-item-action flex-column align-items-start active">
                     <div class="d-flex w-100 justify-content-between">
@@ -63,7 +73,7 @@
         {% endif %}
     </div>
 
-    <div style="padding-left: 2%; padding-right: 2%; padding-bottom: 3%">
+    <div style="padding-left: 5%; padding-right: 2%; padding-bottom: 3%">
         {% if answers %}
             <h4>Answers</h4>
         {% endif %}
@@ -78,20 +88,49 @@
                     <div class="d-flex w-100 justify-content-between">
                         <p class="mb-1">{{ answer.text }}</p>
                     </div>
-                    {% if app.user %}
-                        {% if not question.closed %}
-                            {% if question.course.author != app.user %}
-                                {% if app.user in question.course.students %}
-                                    {% if answer in app.user.likedAnswers %}
-                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart-fill"></i></a>
-                                    {% else %}
-                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart"></i></a>
+                    <div class="d-flex w-100 justify-content-between">
+                        <div>
+                            {% if app.user %}
+                                {% if not question.closed %}
+                                    {% if question.course.author != app.user %}
+                                        {% if app.user in question.course.students %}
+                                            {% if answer in app.user.likedAnswers %}
+                                                <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart-fill" style="color: crimson"></i></a>
+                                            {% else %}
+                                                <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart"></i></a>
+                                            {% endif %}
+                                        {% endif %}
                                     {% endif %}
-                                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
                                 {% endif %}
                             {% endif %}
-                        {% endif %}
-                    {% endif %}
+                            <span> {{ answer.likes }} likes </span>
+                        </div>
+                        <div>
+                            {% if app.user %}
+                                {% if not question.closed %}
+                                    {% if question.course.author != app.user %}
+                                        {% if app.user in question.course.students %}
+                                            <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+{#                    {% if app.user %}#}
+{#                        {% if not question.closed %}#}
+{#                            {% if question.course.author != app.user %}#}
+{#                                {% if app.user in question.course.students %}#}
+{#                                    {% if answer in app.user.likedAnswers %}#}
+{#                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart-fill"></i></a>#}
+{#                                    {% else %}#}
+{#                                        <a type="button"  href="{{ path('liked', {id: answer.id}) }}"><i class="bi bi-suit-heart"></i></a>#}
+{#                                    {% endif %}#}
+{#                                    <a type="button" class="btn btn-primary btn-sm" href="{{ path('addReaction', {id: answer.id}) }}" >Add reaction!</a>#}
+{#                                {% endif %}#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
+{#                    {% endif %}#}
                 </div>
             </div>
 

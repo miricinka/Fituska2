@@ -3,12 +3,18 @@
 {% block title %}Courses{% endblock %}
 
 {% block body %}
-<div class="container">
     {% for message in app.flashes('success') %}
         <div class="flash-notice alert alert-success alert-dismissible">
             {{ message }}
         </div>
     {% endfor %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Courses</li>
+        </ol>
+    </nav>
 
     <h2>List of all courses</h2>
     {% if app.user %}
@@ -66,6 +72,5 @@
             {% endfor %}
         </tbody>
     </table>
-</div>
 
 {% endblock %}

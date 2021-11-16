@@ -3,6 +3,20 @@
 {% block title %}Users{% endblock %}
 
 {% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice alert alert-success alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Users</li>
+        </ol>
+    </nav>
+
     <h2>Users</h2>
 
     <table class="table table-striped" style="width: 70%">
@@ -14,9 +28,9 @@
                     </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.score }}</td>
-{#                    {% if app.user %}#}
-{#                        <td><a class="text-danger text-decoration-none" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>#}
-{#                    {% endif %}#}
+                    {% if app.user and is_granted('ROLE_ADMIN') %}
+                        <td><a type="button" class="btn btn-outline-danger" style="padding:0.40rem 0.8rem;" href="{{ path('users.delete',{id: user.id} )}}">Delete</a></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>

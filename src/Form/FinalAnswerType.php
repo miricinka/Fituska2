@@ -17,7 +17,7 @@ class FinalAnswerType extends AbstractType
             ->add('text', TextareaType::class, [
                 'label' => "Write final answer!",
                 'attr' => array(
-                    'placeholder' => "What is the final answer?",
+                    'placeholder' => "What is the final answer? This action will CLOSE this answer.",
                 ),
                 'required' => true
             ])

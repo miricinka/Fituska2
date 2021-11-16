@@ -3,6 +3,13 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Register</li>
+        </ol>
+    </nav>
+
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}

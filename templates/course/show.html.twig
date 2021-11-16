@@ -3,6 +3,15 @@
 {% block title %}{{ course.id }}{% endblock %}
 
 {% block body %}
+
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('course.courses') }}">Courses</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ course.id }}</li>
+        </ol>
+    </nav>
+
     <h1>
         <small class="text-muted">{{ course.id }}</small>
         {{ course.title }}
@@ -10,7 +19,7 @@
     <small class="text-muted">{{ course.author }}</small>
     <p>{{ course.description }}</p>
     {% if app.user %}
-        {% if app.user in course.students %}
+        {% if app.user in course.students or app.user == course.author%}
             <a type="button" class="btn btn-success" href="{{ path('addQuestion', {id: course.id}) }}" >Ask a question!</a>
         {% endif %}
     {% endif %}
