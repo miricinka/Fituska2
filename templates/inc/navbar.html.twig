@@ -14,6 +14,10 @@
                     <a class="nav-link" href="{{ path('users') }}">Users</a>
                 </li>
             </ul>
+            <form class="d-flex" action="{{ path('search') }}">
+                <input class="form-control me-sm-2" type="text" id="searched" name="searched" placeholder="Search">
+                <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            </form>
             {% if app.user %}
                 <a class="nav-link d-flex" href="{{ path('users.show',{id: app.user.id} )}}">{{ app.user.username }}</a>
                 <a class="nav-link d-flex text-danger" href="{{ path('app_logout') }}">Log out</a>

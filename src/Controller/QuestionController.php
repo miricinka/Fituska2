@@ -130,6 +130,24 @@ class QuestionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $question->setClosed(true);
             $em->persist($question);
+
+            $imageFile = $formFinalAnswer->get('image')->getData();
+
+            if($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $newFinalAnswer->setImage($newFilename);
+            }
+
             $em->persist($newFinalAnswer);
             $em->flush();
 
@@ -149,5 +167,12 @@ class QuestionController extends AbstractController
             'reactions' => $reactions,
             'finalAnswer' => $finalAnswer
         ]);
+    }
+
+    /**
+     * @Route("question/show", name="showAllQuestions")
+     */
+    public function showAll(){
+
     }
 }

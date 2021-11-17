@@ -1,0 +1,35 @@
+{% extends('base.html.twig') %}
+{% block title %}Search result{% endblock %}
+{% block body %}
+    <div> searched string: {{ searched }}</div>
+    <h3>USERS</h3>
+    {% if users %}
+        {% for user in users %}
+            <div><a href="{{ path('users.show',{id: user.id} )}}">{{ user.username }}</a></div>
+        {% endfor %}
+    {% else %}
+        <spa>No users found :(</spa>
+    {% endif %}
+
+    <h3>COURSES</h3>
+    {% if coursesTitle or coursesID %}
+        {% for course in coursesTitle %}
+            <div><a href="{{ path('course.show',{id: course.id} )}}">{{ course.title }}</a></div>
+        {% endfor %}
+        {% for course in coursesID %}
+            <div><a href="{{ path('course.show',{id: course.id} )}}">{{ course.id }}</a></div>
+        {% endfor %}
+    {% else %}
+        <spa>No courses with substring {{ searched }} found :(</spa>
+    {% endif %}
+
+    <h3>QUESTIONS</h3>
+    {% if questions %}
+        {% for question in questions %}
+            <div><a href="{{ path('showQuestion',{id: question.id} )}}">{{ question.title }}</a></div>
+        {% endfor %}
+    {% else %}
+        <spa>No questions found :(</spa>
+    {% endif %}
+
+{% endblock %}

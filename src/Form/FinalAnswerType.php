@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\FinalAnswer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,8 +22,12 @@ class FinalAnswerType extends AbstractType
                 ),
                 'required' => true
             ])
+            ->add('image', FileType::class,[
+                'label' => 'Image file',
+                'required' => false
+            ])
             ->add('save', SubmitType::class, [
-                'label' => 'Submit',
+                'label' => 'Close question',
                 'attr' => [
                     'class' => 'btn btn-primary'
                 ]

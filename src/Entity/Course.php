@@ -7,15 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CourseRepository::class)
+ * @UniqueEntity(
+ *     fields={"id"},
+ *     message="This id is already used."
+ * )
  */
 class Course
 {
     /**
      * @ORM\Id
-     * @ORM\Column(type="string", length=4)
+     * @ORM\Column(type="string", length=4, unique=true)
      */
     private $id;
     /**
@@ -24,7 +29,7 @@ class Course
      */
     private $title;
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      */
     private $description;
 

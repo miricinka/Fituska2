@@ -32,6 +32,11 @@ class FinalAnswer
      */
     private $question;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,18 @@ class FinalAnswer
     public function setQuestion(?Question $question): self
     {
         $this->question = $question;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

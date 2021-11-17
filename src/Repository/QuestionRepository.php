@@ -19,6 +19,14 @@ class QuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, Question::class);
     }
 
+    public function findBySearch(string $searched){
+        $qb = $this->createQueryBuilder('q');
+        return $qb->where($qb->expr()->like('q.title', ':substr'))
+            ->setParameter('substr', '%'.$searched.'%')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Question[] Returns an array of Question objects
     //  */

@@ -32,7 +32,7 @@
 
                     <p class="mb-1">{{ question.description }}</p>
                     {% if  question.image %}
-                        <div><img style="max-width: 100%" src="{{ asset('/uploads/images/'  ~ question.image)}}"></div>
+                        <div><img class="img-responsive rounded" src="{{ asset('/uploads/images/'  ~ question.image)}}"></div>
                     {% endif %}
                     <a class="text-decoration-none" href="{{ path('users.show',{id: question.author.id} )}}">
                         <small class="text-muted">{{ question.author }}</small>
@@ -56,6 +56,9 @@
                 </div>
                 <div class="card-body">
                     <p class="card-text">{{ finalAnswer.text }}</p>
+                    {% if  finalAnswer.image %}
+                        <div><img class="img-responsive rounded" src="{{ asset('/uploads/images/'  ~ finalAnswer.image)}}"></div>
+                    {% endif %}
                 </div>
             </div>
         {% endif %}
@@ -95,7 +98,7 @@
                         <p class="mb-1">{{ answer.text }}</p>
                     </div>
                     {% if  answer.image %}
-                        <div><img style="max-width: 100%" src="{{ asset('/uploads/images/'  ~ answer.image)}}"></div>
+                        <div><img class="img-responsive rounded" src="{{ asset('/uploads/images/'  ~ answer.image)}}"></div>
                     {% endif %}
                     <div class="d-flex w-100 justify-content-between">
                         <div>
