@@ -65,6 +65,11 @@ class Question
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image;
+
     public function __construct()
     {
         $this->answers = new ArrayCollection();
@@ -223,6 +228,18 @@ class Question
         }
 
         $this->finalAnswer = $finalAnswer;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

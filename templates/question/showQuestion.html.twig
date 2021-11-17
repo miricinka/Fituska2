@@ -31,6 +31,9 @@
                     <span class="badge bg-success" style="margin-bottom: 10px">{{ question.category }}</span>
 
                     <p class="mb-1">{{ question.description }}</p>
+                    {% if  question.image %}
+                        <div><img style="max-width: 100%" src="{{ asset('/uploads/images/'  ~ question.image)}}"></div>
+                    {% endif %}
                     <a class="text-decoration-none" href="{{ path('users.show',{id: question.author.id} )}}">
                         <small class="text-muted">{{ question.author }}</small>
                     </a>
