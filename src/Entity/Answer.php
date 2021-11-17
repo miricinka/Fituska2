@@ -6,6 +6,7 @@ use App\Repository\AnswerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnswerRepository::class)
@@ -58,6 +59,11 @@ class Answer
      * @ORM\Column(type="boolean", options={"default":"0"})
      */
     private $isCorrect = false;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $image;
 
     public function __construct()
     {
@@ -205,6 +211,18 @@ class Answer
     public function setIsCorrect(bool $isCorrect): self
     {
         $this->isCorrect = $isCorrect;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

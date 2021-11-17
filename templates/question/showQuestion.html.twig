@@ -91,6 +91,9 @@
                     <div class="d-flex w-100 justify-content-between">
                         <p class="mb-1">{{ answer.text }}</p>
                     </div>
+                    {% if  answer.image %}
+                        <div><img style="max-width: 100%" src="{{ asset('/uploads/images/'  ~ answer.image)}}"></div>
+                    {% endif %}
                     <div class="d-flex w-100 justify-content-between">
                         <div>
                             {% if app.user %}

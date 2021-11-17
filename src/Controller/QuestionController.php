@@ -21,6 +21,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class QuestionController extends AbstractController
 {
@@ -57,7 +60,7 @@ class QuestionController extends AbstractController
     /**
      * @Route("question/show/{id}", name="showQuestion")
      */
-    public function show($id, QuestionRepository $questionRepository, Request $request, AnswerRepository $answerRepository, ReactionRepository $reactionRepository, FinalAnswerRepository $finalAnswerRepository){
+    public function show($id, QuestionRepository $questionRepository, Request $request, AnswerRepository $answerRepository, ReactionRepository $reactionRepository, FinalAnswerRepository $finalAnswerRepository, SluggerInterface $slugger){
         $question = $questionRepository->find($id);
         $answers = $answerRepository->findBy(['question'=> $question]);
         $answersByUser = $answerRepository->findBy(['question'=> $question, 'author'=>$this->getUser()]);
@@ -80,6 +83,22 @@ class QuestionController extends AbstractController
 
         if($formAnswer->isSubmitted() && $formAnswer->isValid()){
             $em = $this->getDoctrine()->getManager();
+
+            $imageFile = $formAnswer->get('image')->getData();
+            if($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
+                try {
+                    $imageFile->move(
+                        $this->getParameter('images_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $answer->setImage($newFilename);
+            }
 
             $em->persist($answer);
             $em->flush();

@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Answer;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,11 +16,15 @@ class AnswerType extends AbstractType
     {
         $builder
             ->add('text', TextareaType::class, [
-                'label' => "Write your answer!",
+                'label' => "Write your answer!*",
                 'attr' => array(
                     'placeholder' => "What is the correct answer?",
                 ),
                 'required' => true
+            ])
+            ->add('image', FileType::class,[
+                'label' => 'Image file',
+                'required' => false
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Answer now',

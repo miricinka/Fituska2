@@ -30,7 +30,7 @@
                         <td><h4>Delete</h4></td>
                     {% endif %}
                     {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
-                        <td><h4>Publish</h4></td>
+                        <td><h4>Approve</h4></td>
                     {% endif %}
                     <td><h4>Enroll</h4></td>
                 {% endif %}
@@ -54,9 +54,9 @@
                             {% endif %}
                             {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN')%}
                                 {% if not course.published %}
-                                    <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;"href="{{ path('course.publish',{id: course.id} )}}">Publish</a></td>
+                                    <td><a type="button" class="btn btn-outline-success" style="padding:0.40rem 0.8rem;"href="{{ path('course.publish',{id: course.id} )}}">Approve</a></td>
                                 {% else %}
-                                    <td><span class="text-muted text-decoration-none">Published</span></td>
+                                    <td><span class="text-muted text-decoration-none">Approved</span></td>
                                 {% endif %}
                             {% endif %}
                             {% if app.user == course.author %}
