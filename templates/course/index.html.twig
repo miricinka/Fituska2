@@ -26,7 +26,7 @@
                 <td><h4>ID</h4></td>
                 <td><h4>Title</h4></td>
                 {% if app.user %}
-                    {% if is_granted('ROLE_ADMIN') %}
+                    {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
                         <td><h4>Delete</h4></td>
                     {% endif %}
                     {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN') %}
@@ -49,7 +49,7 @@
                             {% endif %}</td>
                         </td>
                         {% if app.user %}
-                            {% if is_granted('ROLE_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MOD')%}
                                 <td><a type="button" class="btn btn-outline-danger" style="padding:0.40rem 0.8rem;" href="{{ path('course.delete',{id: course.id} )}}">Delete</a></td>
                             {% endif %}
                             {% if is_granted('ROLE_MOD') or is_granted('ROLE_ADMIN')%}

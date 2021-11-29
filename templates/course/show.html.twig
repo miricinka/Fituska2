@@ -13,10 +13,10 @@
     </nav>
 
     <h1>
-        <small class="text-muted">{{ course.id }}</small>
+        <small class="text-muted" >{{ course.id }}</small>
         {{ course.title }}
     </h1>
-    <small class="text-muted">{{ course.author }}</small>
+    <h6>Teacher: <a class="text-muted" href="{{ path('users.show',{id: course.author} )}}">{{ course.author }}</a></h6>
     <p>{{ course.description }}</p>
     {% if app.user %}
         {% if app.user in course.students or app.user == course.author%}

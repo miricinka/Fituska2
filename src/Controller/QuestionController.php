@@ -151,7 +151,7 @@ class QuestionController extends AbstractController
             $em->persist($newFinalAnswer);
             $em->flush();
 
-            $this->addFlash('success', 'Final answer added!');
+            $this->addFlash('success', 'Final answer added! DO NOT FORGET to mark correct answers.');
             return $this->redirect($this->generateUrl('showQuestion', [
                 'id' => $question->getId()
             ]));
@@ -167,12 +167,5 @@ class QuestionController extends AbstractController
             'reactions' => $reactions,
             'finalAnswer' => $finalAnswer
         ]);
-    }
-
-    /**
-     * @Route("question/show", name="showAllQuestions")
-     */
-    public function showAll(){
-
     }
 }

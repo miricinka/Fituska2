@@ -15,10 +15,4 @@ class MainController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
-    /**
-     * @Route("/custom", name="custom")
-     */
-    public function custom() {
-        return $this->render('home/custom.html.twig');
-    }
 }

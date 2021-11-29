@@ -18,14 +18,14 @@ class CourseType extends AbstractType
     {
         $builder
             ->add('id', TextType::class, [
-                'label' => "ID*",
+                'label' => "ID* (Length: 3 chars)",
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please fill in ID',
                     ]),
                     new Length([
                         'min' => 3,
-                        'max' => 4,
+                        'max' => 3,
                     ]),
                 ],
             ])
