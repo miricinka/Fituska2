@@ -106,11 +106,15 @@ class CourseController extends AbstractController
      */
     public function subscribeToCourse($id, CourseRepository $courseRepository){
         $course = $courseRepository->find($id);
+        if($this->getUser() == $course->getAuthor()){
+            $this->addFlash('danger', 'You are the teacher of this course, so you cannot subscribe.');
+            return $this->redirect($this->generateUrl('course.courses'));
+        }
         $course->addStudent($this->getUser());
         $em = $this->getDoctrine()->getManager();
         $em->persist($course);
         $em->flush();
-
+        $this->addFlash('success', 'You have enrolled!');
         return $this->redirect($this->generateUrl('course.courses'));
     }
 

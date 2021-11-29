@@ -16,12 +16,15 @@ class AnswerController extends AbstractController
 {
 
     /**
-     * @Route("/addreaction{id}", name="addReaction")
+     * @Route("/addreaction/{id}", name="addReaction")
      */
     public function addReaction($id, AnswerRepository $answerRepository, QuestionRepository $questionRepository, Request $request): Response
     {
         $answer = $answerRepository->find($id);
-
+        if(!in_array($this->getUser(), $answer->getQuestion()->getCourse()->getStudents()->toArray())){
+            $this->addFlash('danger', 'You must be enrolled in order to add reaction');
+            return $this->redirect($this->generateUrl('course.courses'));
+        }
         $reaction = new Reaction();
         $reaction->setAuthor($this->getUser());
         $reaction->setReactionToAnswer($answer);
@@ -55,6 +58,11 @@ class AnswerController extends AbstractController
     public function like($id, AnswerRepository $answerRepository){
         $answer = $answerRepository->find($id);
         $question = $answer->getQuestion();
+
+        if(!in_array($this->getUser(), $answer->getQuestion()->getCourse()->getStudents()->toArray())){
+            $this->addFlash('danger', 'You must be enrolled in order to add like');
+            return $this->redirect($this->generateUrl('course.courses'));
+        }
 
         $em = $this->getDoctrine()->getManager();
 

@@ -8,6 +8,11 @@
             {{ message }}
         </div>
     {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="flash-notice alert alert-danger alert-dismissible">
+            {{ message }}
+        </div>
+    {% endfor %}
 
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">

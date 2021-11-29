@@ -20,6 +20,16 @@
     <h2>Users</h2>
 
     <table class="table table-striped" style="width: 70%">
+        <thead>
+        <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Points</th>
+            {% if app.user and is_granted('ROLE_ADMIN') %}
+                <th>Delete</th>
+            {% endif %}
+        </tr>
+        </thead>
         <tbody>
             {% for user in users %}
                 <tr>

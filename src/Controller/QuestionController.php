@@ -33,6 +33,10 @@ class QuestionController extends AbstractController
     public function addQuestion(Request $request, $id, CourseRepository $courseRepository, SluggerInterface $slugger): Response
     {
         $course = $courseRepository->find($id);
+        if(!in_array($this->getUser(), $course->getStudents()->toArray()) and $this->getUser() != $course->getAuthor()){
+            $this->addFlash('danger', 'You must be enrolled in order to add question');
+            return $this->redirect($this->generateUrl('course.courses'));
+        }
         $question = new Question();
         $question->setAuthor($this->getUser());
         $question->setCourse($course);
