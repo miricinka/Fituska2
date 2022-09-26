@@ -2,7 +2,7 @@
 
 Informační systém v PHP framework Symfony
 
-url:https://fituska2.herokuapp.com/
+url:https://fituska2.herokuapp.com/ (uz neni free databaze :( todo )
 
 Body: 30/30
 
