@@ -4,7 +4,7 @@ Information system in PHP framework Symfony
 
 Points: 30/30
 
-## Web application for teachers and students
+## Web application for teachers and students with gamification
 The task is to create an information system to improve student exam preparation with gamification elements. The aim is to ask relevant questions about selected courses to both students and teachers, where each question has a title and other attributes. Each student in the course can provide a maximum of one textual answer to the posed questions. The content can be discussed in a discussion thread of the answer and its quality may be recognized by other students awarding votes. After a sufficient number of answers have been submitted, the correctness of the answers is evaluated by the course teacher, and students who have provided correct answers are awarded points.
 
 Detailed description and user roles below.
