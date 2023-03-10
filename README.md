@@ -1,10 +1,34 @@
 # Fituska2
 
-Informační systém v PHP framework Symfony
+Information system in PHP framework Symfony
 
-url:https://fituska2.herokuapp.com/ (uz neni free databaze :( todo )
+Points: 30/30
 
-Body: 30/30
+## Web application for teachers and students
+The task is to create an information system to improve student exam preparation with gamification elements. The aim is to ask relevant questions about selected courses to both students and teachers, where each question has a title and other attributes. Each student in the course can provide a maximum of one textual answer to the posed questions. The content can be discussed in a discussion thread of the answer and its quality may be recognized by other students awarding votes. After a sufficient number of answers have been submitted, the correctness of the answers is evaluated by the course teacher, and students who have provided correct answers are awarded points.
+
+Detailed description and user roles below.
+
+- list of all courses available for students to enroll in
+- teachers have the ability to create new courses
+- any new course that is created needs to be approved first before it becomes available for students to enroll in.
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/56356131/224374848-0dccdfa6-10cc-4355-b8f3-783d554ba722.png">
+
+- detail of a course
+- users can ask questions related to the course content
+- the status of each question (i.e., whether it has been answered or is still open) is visible to users.
+- each question is assigned to a specific category 
+
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/56356131/224374944-1bc05949-02fc-4c01-b22d-049b9e236831.png">
+
+- detail of a question
+- users can 'like' and add comments to answers
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/56356131/224375112-48993cc0-1958-4f8b-9c77-82b8220291c0.png">
+
+- teacher can 'close' the question and provide a final answer
+- correct answers by students are marked as correct and points are rewarded
+<img width="1440" alt="image" src="https://user-images.githubusercontent.com/56356131/224375039-5fc89e47-75e9-4425-9633-56fbefd95f63.png">
+
 
 ## Zadani 
 
