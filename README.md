@@ -16,7 +16,7 @@ Detailed description and user roles below.
 
 - detail of a course
 - users can ask questions related to the course content
-- the status of each question (i.e., whether it has been answered or is still open) is visible to users.
+- the status of each question (i.e., whether it has been given a final answer and locked or is still open) is visible to users.
 - each question is assigned to a specific category 
 
 <img width="1440" alt="image" src="https://user-images.githubusercontent.com/56356131/224374944-1bc05949-02fc-4c01-b22d-049b9e236831.png">
